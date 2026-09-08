@@ -1,0 +1,13 @@
+package chapter6_2;
+
+import chapter6.Tax;
+
+public class Sample1 {
+
+	public static void main(String[] args) {
+		Tax tax = new Tax(100, "田中", 300000, 100000);
+		System.out.println(tax.zeigaku());
+
+	}
+
+}
