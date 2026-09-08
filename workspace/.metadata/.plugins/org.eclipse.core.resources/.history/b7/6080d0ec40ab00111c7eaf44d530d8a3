@@ -1,0 +1,23 @@
+package chapter4_1;
+
+public class Main {
+//	補講：main関数に引数について
+
+	public static void main(String[] args) {
+		for (String s: args) {
+			System.out.println(s);
+		}
+//		↑これで実行すると何も出てこない。
+//		eclipse上で引数を指定して実行するには、
+//		左メニューMain.java※このプログラムを右クリック
+//		実行→実行の構成→引数のタブ→引数に渡す内容を
+//		入力→ex:Hello Java world
+//		引数が空白区切りで3つ渡され実行
+////		結果：
+//		Helllo
+//		Java
+//		World
+
+	}
+
+}

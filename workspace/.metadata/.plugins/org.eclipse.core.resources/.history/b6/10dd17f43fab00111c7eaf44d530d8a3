@@ -1,0 +1,15 @@
+package chapter4_1;
+
+public class Main {
+//	補講：main関数に引数について
+
+	public static void main(String[] args) {
+		for (String s: args) {
+			System.out.println(s);
+		}
+//		↑これで実行すると何も出てこない。
+//		eclipse上で引数を指定して
+
+	}
+
+}

@@ -1,0 +1,24 @@
+package chapter3_4;
+
+import java.util.ArrayList;
+
+public class Exercise_99 {
+
+	public static void main(String[] args) {
+		var list = new ArrayList< ArrayList<Integer>>();
+		System.out.println(list);
+		for(int i=0;i<10;i++) {
+			list.add(new ArrayList<Integer>());
+			System.out.println(list);
+		}
+		for(int j=0;j<10;j++) {
+			for(int k=0;k<10;k++) {
+				list.get(j).add(j*k);
+			}
+
+		}
+		
+
+	}
+
+}

@@ -1,0 +1,27 @@
+package chapter6;
+//オブジェクト指向：
+//Taxオブジェクトを定義し、メソッドを定義する。
+//　mainメソッドが無いのでこのプログラムだけでは実行できない。
+
+public class Tax {
+	private int number;
+	private String name;
+	private int shotoku;
+	private int koujo;
+	
+//	↓ソース→フィールドを利用して～コンストラクタを生成→super()呼出省略✅
+	public Tax
+	(int number, String name, int shotoku, int koujo)
+	{
+		this.number = number;
+		this.name = name;
+		this.shotoku = shotoku;
+		this.koujo = koujo;
+	}
+
+	public int zeigaku() {
+//		税額を計算して int にキャストして返す。
+		return (int)((shotoku - koujo)*0.1);
+	}
+
+}

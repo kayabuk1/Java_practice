@@ -1,0 +1,60 @@
+package chapter4_1;
+
+/**Javadocコメントの練習
+ * ユーティリティクラス
+ * 
+ * <p>//javadocはタグが使えるのも特徴
+ *便利なメソッドを集めたクラスです<br>
+ *これからも色々なメソッドを追加していく予定です。 
+ * 
+ * @version 1.0 //@補完を押すと候補が表示される
+ * @author 川場隆
+ */
+public class Util {
+// static は new が要らない。
+//　宣言と同時にメモリが確保され配置される。
+//	だからわざわざメモリ確保の予約語である newを
+//	書かなくてよい。結果として？クラスメソッドとして、
+//	インスタンスを生成せずとも使える。
+	
+	/**
+	 * 円の面積を計算する。
+	 * 
+	 * @param hankei
+	 * @return
+	 */
+	public static double menseki(double hankei) {
+		double s = Math.pow(hankei, 2)*Math.PI;
+		return s;
+	}
+}
+/*
+ *ソース・ファイル\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\src\chapter4_1\Util.javaを読み込んでいます...
+Javadoc情報を構築しています...
+全パッケージとクラスのインデックスを作成しています...
+標準Docletバージョン21.0.8+9-LTS
+全パッケージとクラスの階層ツリーを作成しています...
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\doc\chapter4_1\Util.htmlの生成中...
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\src\chapter4_1\Util.java:23: 警告: @paramの説明がありません
+	 * @param hankei
+	   ^
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\src\chapter4_1\Util.java:24: 警告: @returnの説明がありません
+	 * @return
+	   ^
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\src\chapter4_1\Util.java:13: 警告: デフォルトのコンストラクタの使用で、コメントが指定されていません
+public class Util {
+       ^
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\doc\chapter4_1\package-summary.htmlの生成中...
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\doc\chapter4_1\package-tree.htmlの生成中...
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\doc\overview-tree.htmlの生成中...
+全クラスのインデックスを作成しています...
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\doc\allclasses-index.htmlの生成中...
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\doc\allpackages-index.htmlの生成中...
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\doc\index-all.htmlの生成中...
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\doc\search.htmlの生成中...
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\doc\index.htmlの生成中...
+\\IOTSV01\共有フォルダ\10_横須賀\Java\workspace\part1\doc\help-doc.htmlの生成中...
+警告3個
+ 
+ * */
+ */

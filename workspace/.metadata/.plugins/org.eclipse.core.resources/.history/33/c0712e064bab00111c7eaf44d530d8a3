@@ -1,0 +1,29 @@
+package chapter4_1;
+
+/**Javadocコメントの練習
+ * ユーティリティクラス
+ * 
+ * <p>//javadocはタグが使えるのも特徴
+ *便利なメソッドを集めたクラスです<br>
+ *これからも色々なメソッドを追加していく予定です。 
+ * 
+ * @version 1.0 //@補完を押すと候補が表示される
+ * @author 川場隆
+ */
+public class Util {
+// static は new が要らない。
+//　宣言と同時にメモリが確保され配置される。
+//	だからわざわざメモリ確保の予約語である newを
+//	書かなくてよい。結果として？クラスメソッドとして、
+//	インスタンスを生成せずとも使える。
+	
+	/**
+	 * 
+	 * @param hankei
+	 * @return
+	 */
+	public static double menseki(double hankei) {
+		double s = Math.pow(hankei, 2)*Math.PI;
+		return s;
+	}
+}

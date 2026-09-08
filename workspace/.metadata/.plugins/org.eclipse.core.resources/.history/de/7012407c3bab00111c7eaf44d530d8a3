@@ -1,0 +1,32 @@
+package chapter3_4;
+
+import java.util.ArrayList;
+
+public class Exercise_99 {
+
+	public static void main(String[] args) {
+		var list = new ArrayList< ArrayList<Integer>>();
+//		System.out.println(list);
+		for(int i=1;i<10;i++) {
+			list.add(new ArrayList<Integer>());
+//			System.out.println(list);
+			for(int j=1;j<10;j++) {
+					list.get(i-1).add(i*j);
+			}
+		}
+		for (ArrayList<Integer> l : list) {
+//			System.out.println(l);
+			for(int k=0; k<9; k++) {
+				if(k==8) {
+					System.out.println(l.get(k));
+				}else if(k<=7 && l.get(k)<10) {
+					System.out.print(l.get(k)+"\t,");
+				}else {
+					System.out.print(l.get(k)+",");
+				}
+			}
+//			System.out.println("\n");
+		}
+	}
+
+}

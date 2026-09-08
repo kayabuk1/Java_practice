@@ -1,0 +1,14 @@
+package chapter6;
+//オブジェクト指向：メソッドを定義する。
+
+public class Tax {
+	private int number;
+	private String name;
+	private int shotoku;
+	private int koujo;
+	
+	public int zeigaku() {
+		return (int)((shotoku - koujo)*0.1);
+	}
+
+}
