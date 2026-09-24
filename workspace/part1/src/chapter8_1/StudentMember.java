@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class StudentMember extends GeneralMember {
 	private LocalDate expDate;
+	
 	public StudentMember(long id, String name, LocalDate expDate) {
 		super(id, name);
 		this.expDate = expDate;
