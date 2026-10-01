@@ -5,27 +5,27 @@ import java.util.List;
 
 public class Sample4 {
 
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) 
+	{
 		var list = List.of
 				(
-						new Student
-						(10, "田中宏", "tanka@mail.jp", 
+						new Student(10, "田中宏", "tanka@mail.jp", 
 								2, LocalDate.of(2000, 1, 1)),
-						new AuditingStudent
-						(20, "木村", "kimura@mail.jp", 3, 112),
-						new Teacher
-						(12, "岡田晃", "okada@mail.jp", 1,
+						new AuditingStudent(20, "木村",
+								"kimura@mail.jp", 3, 112),
+						new Teacher(12, "岡田晃", "okada@mail.jp", 1,
 								"https://server.jp/okada/")
 				);
 		
-		for (Versionable ver : list) {
+		for (Versionable ver : list) 
+		{
 			System.out.println(ver.Version());
 		}
 		
 		System.out.println();
 		
-		for (User usr : list) {
+		for (User usr : list) 
+		{
 			System.out.println(
 				usr.getName()
 				+usr.getMail()
