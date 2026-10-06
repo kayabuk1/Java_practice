@@ -20,14 +20,14 @@ public class Sample1 {
 		testApple(new Predicate() {
 			@Override
 			public boolean test(Apple a) {
-				return a.wight()>300;
+				return a.weight()>300;
 			}
 		});
 //		先生曰く、分解して書くと↓の様とのこと。
 //		通常Predicateは ｲﾝﾀｰﾌｪｰｽ なので、ｺﾝｽﾄﾗｸﾀが無い。
 //		なので、 Predicate p = new Predicate();
 //		と書くとコンパイルエラーになってしまう。
-//		↓の様に{}クラス定義内容を付け足して抽象メソッドをｵｰﾊﾞｰﾗｲﾄﾞすれば、
+//		↓の様に 「{}クラス定義 」内容を付け足して抽象メソッドをｵｰﾊﾞｰﾗｲﾄﾞすれば、
 //		エラーにならない。
 //		ラムダ式登場前（ver8まで）はこの匿名クラスを使っていたとのこと。
 //		⚠注意：ラムダ式＝匿名クラスではないとのこと。
@@ -39,6 +39,7 @@ public class Sample1 {
 //			}
 //		};
 //		testApple(p);
+		
 //		②次に書かなくてもコンパイラが分かるものを削る。
 		
 		int min = 30;
@@ -75,7 +76,7 @@ public class Sample1 {
 //						ラムダ式の 「中で作った変数」なら自由に変更OK
 //						外で作った変数を中で書き換えるのはNG
 						return a.color().equals("red")
-						&& a.wight()>Predicate.num+max;}
+						&& a.weight()>Predicate.num+max;}
 //						↑中の具体的な処理内容だけ残る。
 //						;
 //			  }

@@ -8,7 +8,7 @@ public class Sample2 {
 
 	public static void main(String[] args)
 	{
-		testApple(a -> a.wight() >= 300);
+		testApple(a -> a.weight() >= 300);
 	}
 	
 	public static void testApple(Predicate<Apple> p) 
@@ -16,7 +16,7 @@ public class Sample2 {
 //		ｲﾝﾀｰﾌｪｰｽ：Predicate<T>
 //		抽象メソッド:boolean test(T t)
 //		機能：T型（総称型）を使って何かの条件を判定する。
-//		Tには別章で作った Tax型も入れられる。※要ﾒｿｯﾄﾞ書換え
+//		Tには別章で作った Tax型も入れられる。※要処理内容書換え
 		
 		var list = getAppleList();
 		for (Apple apple : list)
