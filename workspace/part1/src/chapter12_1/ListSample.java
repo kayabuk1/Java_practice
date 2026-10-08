@@ -40,7 +40,7 @@ public class ListSample {
 //				greenAppleList.add(apple);
 //			}
 //		}
-		// 後ろ（末尾）からループを回すのがコツ！
+		// 後ろ（末尾）からループを回すのがコツ
 		for (int i = applelist.size() - 1; i >= 0; i--) {
 			
 		    if (applelist.get(i).color().equals("green")) {
