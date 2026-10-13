@@ -1,6 +1,6 @@
 package chapter15_1;
 
-public enum Size {SMALL, MEDIUM, LARGE}
+//public enum Size {SMALL, MEDIUM, LARGE}
 
 ////裏側のイメージ（実際にはコンパイラが自動生成）
 //public final class Size extends java.lang.Enum<Size> {
