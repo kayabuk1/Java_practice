@@ -148,39 +148,62 @@ public class MqttSubscriber {
 	    }
 }	
 //
-//質問の前提に一つ誤解があるので、そこから説明します。例外はメインスレッドでは表示されていません。 別スレッドの中で捕まえられ、別スレッドがそのまま画面に出しています。メインスレッドは何もしていません。
+//質問の前提に一つ誤解があるので、そこから説明します。例外はメインスレッドでは表示されていません。
+//別スレッドの中で捕まえられ、別スレッドがそのまま画面に出しています。
+//メインスレッドは何もしていません。
 //
 //証拠はスタックトレースにあります
 //スタックトレースは下から上に読みます。いちばん下が、そのスレッドの出発点です。
 //
-//at java.base/java.lang.Thread.run(Thread.java:1583)          ← 出発点：Pahoが作ったスレッド
-//at ...paho...CommsCallback.run(CommsCallback.java:214)        ← Pahoの配信係
+//at java.base/java.lang.Thread.run(Thread.java:1583)
+//← 出発点：Pahoが作ったスレッド
+//at ...paho...CommsCallback.run(CommsCallback.java:214)  
+//← Pahoの配信係
 //at ...paho...CommsCallback.deliverMessage(...)
-//at jp.ac.funagi.sample.MqttSubscriber.lambda$0(MqttSubscriber.java:88)  ← あなたのラムダ式
+//at jp.ac.funagi.sample.MqttSubscriber.lambda$0(MqttSubscriber.java:88) 
+//← あなたのラムダ式
 //at tools.jackson.databind.ObjectMapper.readValue(...)         ← ここで例外が発生
 //
-//main という行がどこにもありません。もしメインスレッドで起きた例外なら、いちばん下は MqttSubscriber.main(...) になるはずです。つまり、例外は「MQTT Call」スレッドの中で起き、同じスレッドの中の catch で捕まり、同じスレッドが printStackTrace() を実行しています。
+//main という行がどこにもありません。もしメインスレッドで起きた例外なら、
+//いちばん下は MqttSubscriber.main(...) になるはずです。つまり、
+//例外は「MQTT Call」スレッドの中で起き、同じスレッドの中の catch で捕まり、
+//同じスレッドが printStackTrace() を実行しています。
 //
 //混乱しやすい点：「書いた場所」と「実行するスレッド」は別
-//try-catchは、ソースコード上は main メソッドの中に書かれています。ですが、そこで行われているのはラムダ式という「処理の中身」をPahoに渡すことだけです。その場では実行されません。
+//try-catchは、ソースコード上は main メソッドの中に書かれています。
+//ですが、そこで行われているのはラムダ式という「処理の中身」をPahoに渡すことだけです。
+//その場では実行されません。
 //
-//たとえるなら、メインスレッドは「手紙が届いたら、この手順書どおりに処理して。失敗したら記録して」というメモを書いて、配達係に預けただけです。実際に手紙を開けて、失敗したら記録をつけるのは配達係です。メモを書いた人ではありません。
+//たとえるなら、メインスレッドは「手紙が届いたら、この手順書どおりに処理して。
+//失敗したら記録して」というメモを書いて、配達係に預けただけです。
+//実際に手紙を開けて、失敗したら記録をつけるのは配達係です。メモを書いた人ではありません。
 //
 //メモ ＝ ラムダ式（正確には IMqttMessageListener の実装オブジェクト）
 //預ける ＝ client.subscribe(...) で登録すること
 //配達係 ＝ Pahoが内部で作ったスレッド（MQTT Call: subscribe-sample-iot01）
 //
-//メッセージが届くと、配達係のスレッドが messageArrived(topic, message)、つまりラムダ式の中身を呼び出します。try-catchはラムダ式の内側にあるので、配達係のスレッドの中で動きます。
+//メッセージが届くと、配達係のスレッドが messageArrived(topic, message)、
+//つまりラムダ式の中身を呼び出します。try-catchはラムダ式の内側にあるので、
+//配達係のスレッドの中で動きます。
 //
 //では、なぜ同じ画面に出るのか
-//画面（コンソール）は、プログラム全体で1つの共有の掲示板だからです。System.out も System.err も、プロセス全体で1つだけです（printStackTrace() は System.err に書きます）。どのスレッドが書いても同じ掲示板に貼られるので、メインスレッドが表示しているように見えます。
+//画面（コンソール）は、プログラム全体で1つの共有の掲示板だからです。
+//System.out も System.err も、プロセス全体で1つだけです（printStackTrace() は
+//System.err に書きます）。どのスレッドが書いても同じ掲示板に貼られるので、
+//メインスレッドが表示しているように見えます。
 //
-//ちなみに、そのときメインスレッドは scanner.nextLine() で、キーボード入力を待って止まっています。実行結果の「：」がその待機中の表示です。
+//ちなみに、そのときメインスレッドは scanner.nextLine() で、
+//キーボード入力を待って止まっています。実行結果の「：」がその待機中の表示です。
 //
 //逆に、別スレッドの例外はメインスレッドでは捕まえられない
-//ここが一番大事な点です。main の外側にある catch (MqttException e) は、ラムダ式の中で起きた例外を捕まえられません。例外は、それが起きたスレッドの呼び出しの流れ（コールスタック）をさかのぼるだけで、他のスレッドには伝わらないからです。
+//ここが一番大事な点です。main の外側にある catch (MqttException e) は、
+//ラムダ式の中で起きた例外を捕まえられません。例外は、それが起きたスレッドの呼び出しの流れ
+//（コールスタック）をさかのぼるだけで、他のスレッドには伝わらないからです。
 //
-//だから、ラムダ式の内側にtry-catchを書いたのは正しい判断です。もし書いていなければ、例外はPahoの配信係のところまで上がっていきます。Paho v3は、messageArrived が例外を投げるとクライアントを停止させる作りだったと記憶しています。その場合、変なメッセージが1通来ただけで接続が切れてしまいます。
+//だから、ラムダ式の内側にtry-catchを書いたのは正しい判断です。
+//もし書いていなければ、例外はPahoの配信係のところまで上がっていきます。
+//Paho v3は、messageArrived が例外を投げるとクライアントを停止させる作りだったと
+//記憶しています。その場合、変なメッセージが1通来ただけで接続が切れてしまいます。
 //
 //まとめ
 //
@@ -188,25 +211,38 @@ public class MqttSubscriber {
 //例外は、起きたスレッドの中でしか伝わりません。だから受信処理の中にcatchが必要です。
 //画面はプログラム全体で共有なので、どのスレッドの出力も同じところに出ます。
 //
-//確かめたいときは、catch の中にも System.out.println("catchしたスレッド: " + Thread.currentThread().getName()); を足して実行してみてください。main ではなく MQTT Call: ... と表示されるはずです。
+//確かめたいときは、catch の中にも 
+//System.out.println("catchしたスレッド: " + Thread.currentThread().getName());
+//を足して実行してみてください。main ではなく MQTT Call: ... と表示されるはずです。
 //
-//コンパイラは、どのスレッドで動くかを見ていません。コンパイルが通る理由は2つあり、どちらもスレッドとは関係ありません。
+//コンパイラは、どのスレッドで動くかを見ていません。
+//コンパイルが通る理由は2つあり、どちらもスレッドとは関係ありません。
 //
 //理由1：Jackson 3の JacksonException は非チェック例外
-//import文が tools.jackson... になっているので、使っているのはJackson 3です。Jackson 3では、例外のおおもとの JacksonException が RuntimeException を継承するように変わりました。
+//import文が tools.jackson... になっているので、使っているのはJackson 3です。
+//Jackson 3では、例外のおおもとの JacksonException が RuntimeException を
+//継承するように変わりました。
 //
 //非チェック例外（RuntimeException の仲間）は、catchしなくてもコンパイラは何も言いません。
-//メソッドの宣言に throws JacksonException と書いてあっても、それは「この例外が起きることがあります」という説明書きにすぎません。処理を強制するものではありません。
+//メソッドの宣言に throws JacksonException と書いてあっても、
+//それは「この例外が起きることがあります」という説明書きにすぎません。
+//処理を強制するものではありません。
 //
-//ちなみに、Jackson 2では同じ役割の JsonProcessingException が IOException を継承していて、チェック例外でした。古い記事でtry-catchが必須のように書かれているのは、そのためです。
+//ちなみに、Jackson 2では同じ役割の JsonProcessingException が
+//IOException を継承していて、チェック例外でした。
+//古い記事でtry-catchが必須のように書かれているのは、そのためです。
 //
 //理由2：チェック例外だったとしても、ラムダ式の外には出てこない
-//仮にチェック例外だったとしても、main でcatchする必要はありません。コンパイラが確かめているのは、例外が出ていく先のメソッドが throws で許しているかだけです。
+//仮にチェック例外だったとしても、main でcatchする必要はありません。
+//コンパイラが確かめているのは、例外が出ていく先のメソッドが throws で許しているかだけです。
 //
 //ラムダ式の中身は、IMqttMessageListener の messageArrived メソッドになります。
-//このメソッドは void messageArrived(String topic, MqttMessage message) throws Exception と宣言されています。
-//つまり、「中でどんな例外が起きても、外に投げてよい」と宣言済みです。だから、ラムダ式の中にcatchがなくてもコンパイルは通ります。
-//main はラムダ式を「渡している」だけで、「呼び出して」はいません。なので、main 側に例外を処理する義務は生じません。
+//このメソッドは void messageArrived(String topic, MqttMessage message)
+//throws Exception と宣言されています。
+//つまり、「中でどんな例外が起きても、外に投げてよい」と宣言済みです。
+//だから、ラムダ式の中にcatchがなくてもコンパイルは通ります。
+//main はラムダ式を「渡している」だけで、「呼び出して」はいません。
+//なので、main 側に例外を処理する義務は生じません。
 //
 //比べてみると分かりやすい例
 //Thread.sleep() は、チェック例外の InterruptedException を投げます。
